@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 
-class SplitBySpace {
+class SplitBySlash {
   public:
     std::vector<std::string> split(const std::string &str);
 };

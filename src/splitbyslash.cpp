@@ -1,11 +1,11 @@
-#include "doth/splitbyspace.h"
+#include "doth/splitbyslash.h"
 using namespace std;
 
-vector<string> SplitBySpace::split(const string &str) {
+vector<string> SplitBySlash::split(const string &str) {
     vector<string> result;
     string temp;
     for (char c : str) {
-        if (c == ' ') {
+        if (c == '/') {
             if (!temp.empty())
                 result.push_back(temp);
             temp.clear();
