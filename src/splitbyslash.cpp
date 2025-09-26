@@ -1,14 +1,18 @@
-#include "doth/splitbyslash.h"
+#include "doth/splitbypipe.h"
 using namespace std;
 
-vector<string> SplitBySlash::split(const string &str) {
+vector<string> SplitByPipe::split(const string &str) {
     vector<string> result;
+    result.reserve(10); // or estimate based on typical input
     string temp;
+    temp.reserve(50); // reserve for typical token size
+
     for (char c : str) {
-        if (c == '/') {
-            if (!temp.empty())
+        if (c == '|') {
+            if (!temp.empty()) {
                 result.push_back(temp);
-            temp.clear();
+                temp.clear();
+            }
         } else {
             temp += c;
         }

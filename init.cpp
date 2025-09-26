@@ -1,10 +1,10 @@
 #include "src/doth/builddata.h"
-#include "src/doth/splitbyslash.h"
+#include "src/doth/splitbypipe.h"
 #include <bits/stdc++.h>
 using namespace std;
 
 int main() {
-    SplitBySlash splitBySlash;
+    SplitByPipe splitbypipe;
 
     BuildData buildData;
     ifstream head("file.csv");
@@ -32,10 +32,14 @@ int main() {
         getline(cin, s);
         if (s.empty())
             continue;
-        vector<string> command = splitBySlash.split(s);
+        vector<string> command = splitbypipe.split(s);
 
         if (command[0] == "exit") {
             break;
         }
+        for (string str : command) {
+            cout << str << " ?";
+        }
+        cout << endl;
     }
 }
