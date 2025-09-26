@@ -2,13 +2,18 @@
 #include "src/doth/splitbyslash.h"
 #include <bits/stdc++.h>
 using namespace std;
+
 int main() {
+    SplitBySlash splitBySlash;
 
     BuildData buildData;
     ifstream head("file.csv");
     ifstream file("file.csv");
+    cout << "Loading data..." << endl;
     vector<string> columnNames = buildData.getColumnNames(head);
     vector<vector<double>> data = buildData.getData(file);
+
+    // removing part after testing
     for (int i = 0; i < columnNames.size(); i++) {
         cout << columnNames[i] << " ";
     }
@@ -19,9 +24,18 @@ int main() {
         }
         cout << endl;
     }
+    // ending of the removing part
+    cout << "Welcome to csv-data-processor" << endl;
     while (true) {
         cout << "csv-data-processor>>>";
         string s;
-        cin >> s;
+        getline(cin, s);
+        if (s.empty())
+            continue;
+        vector<string> command = splitBySlash.split(s);
+
+        if (command[0] == "exit") {
+            break;
+        }
     }
 }
