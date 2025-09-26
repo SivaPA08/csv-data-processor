@@ -4,16 +4,23 @@
 using namespace std;
 
 string TokenOperation::getInsideParanthesis(string s) {
+    int start = -1;
     int count = 0;
+
     for (int i = 0; i < s.length(); i++) {
-        if (s[i] == '(')
+        if (s[i] == '(') {
+            if (count == 0)
+                start = i; // Mark start of first opening
             count++;
-        if (s[i] == ')')
+        }
+        if (s[i] == ')') {
             count--;
-        if (count == 0)
-            return s.substr(0, i + 1);
+            if (count == 0 && start != -1) {
+                return s.substr(start + 1, i - start - 1); // Content inside
+            }
+        }
     }
-    return "";
+    return ""; // No balanced parentheses found
 }
 
 vector<string> TokenOperation::seperateByCommas(string s) {

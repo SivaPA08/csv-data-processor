@@ -1,10 +1,12 @@
 #include "src/doth/builddata.h"
 #include "src/doth/splitbypipe.h"
+#include "src/doth/tokenoperation.h"
 #include <bits/stdc++.h>
 using namespace std;
 
 int main() {
     SplitByPipe splitbypipe;
+    TokenOperation tokenOperation;
 
     BuildData buildData;
     ifstream head("file.csv");
@@ -28,6 +30,7 @@ int main() {
     cout << "Welcome to csv-data-processor" << endl;
     while (true) {
         cout << "csv-data-processor>>>";
+        vector<double> a;
         string s;
         getline(cin, s);
         if (s.empty())
@@ -37,8 +40,43 @@ int main() {
         if (command[0] == "exit") {
             break;
         }
+
         for (string str : command) {
-            cout << str << " ?";
+
+            if (str[0] == 'a') { // column add with a range
+                string insideParanthesis =
+                    tokenOperation.getInsideParanthesis(str);
+                vector<string> token =
+                    tokenOperation.seperateByCommas(insideParanthesis);
+                bool ok = false;
+                int index = -1;
+                for (int i = 0; i < columnNames.size(); i++) {
+                    if (columnNames[i] == token[0]) {
+                        ok = true;
+                        index = i;
+                        break;
+                    }
+                }
+                if (!ok) {
+                    cout << "Column not found" << endl;
+                    continue;
+                }
+                int start;
+                if (token[1] == "*") {
+                    start = 0;
+
+                } else {
+                    start = stoi(token[1]);
+                }
+                double share = 0.0;
+                for (int row = start; row < data.size(); row++) {
+                    share += data[row][index];
+                }
+                a.push_back(share);
+            }
+        }
+        for (double colvals : a) {
+            cout << colvals << " | ";
         }
         cout << endl;
     }
