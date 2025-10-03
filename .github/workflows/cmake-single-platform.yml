@@ -13,7 +13,8 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Build and Run
-      run: |
-        chmod +x run.sh
-        ./run.sh
+    - name: Compile
+      run: g++ init.cpp src/*.cpp -o program
+
+    - name: Run
+      run: ./program
