@@ -25,7 +25,8 @@ class Evaluator {
                               "\", \"var_value\": " + std::to_string(varValue) +
                               ", \"condition\": \"" + cond + "\" }";
 
-        std::string cmd = "python3 evaluator.py '" + jsonStr + "'";
+        std::string cmd = "python3 ./include/evaluator.py '" + jsonStr + "'";
+
         FILE *pipe = popen(cmd.c_str(), "r");
         if (!pipe)
             return false;

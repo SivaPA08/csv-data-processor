@@ -1,3 +1,4 @@
+#include "include/Evaluator.hpp"
 #include "src/doth/builddata.h"
 #include "src/doth/splitbypipe.h"
 #include "src/doth/tokenoperation.h"
@@ -7,6 +8,7 @@ using namespace std;
 int main() {
     SplitByPipe splitbypipe;
     TokenOperation tokenOperation;
+    Evaluator eval;
 
     BuildData buildData;
     ifstream head("file.csv");
@@ -120,6 +122,34 @@ int main() {
                     data[row][index] = share;
                 }
                 a.push_back(-1);
+            } else if (str[0] == 'c') {
+                string insideParanthesis =
+                    tokenOperation.getInsideParanthesis(str);
+                vector<string> token =
+                    tokenOperation.seperateByCommas(insideParanthesis);
+                bool ok = false;
+                int index = -1;
+                for (int i = 0; i < columnNames.size(); i++) {
+                    if (columnNames[i] == token[0]) {
+                        ok = true;
+                        index = i;
+                        break;
+                    }
+                }
+                if (!ok) {
+                    cout << "Column not found" << endl;
+                    continue;
+                }
+                string condition = token[1];
+                double share = 0.0;
+
+                for (int row = 0; row < rowLenght; row++) {
+                    if (eval.evaluate("x", data[row][index], condition)) {
+
+                        share += data[row][index];
+                    }
+                }
+                a.push_back(share);
             }
         }
         for (double colvals : a) {
