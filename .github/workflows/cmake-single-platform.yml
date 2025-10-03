@@ -17,4 +17,4 @@ jobs:
       run: g++ init.cpp src/*.cpp -o program
 
     - name: Run
-      run: ./program
+      run: ./program < input
