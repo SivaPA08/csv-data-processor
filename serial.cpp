@@ -47,12 +47,10 @@ int main() {
 
         double totalTimer = 0.0;
 
-        // Serial processing of commands (OpenMP removed)
         for (size_t cmd_idx = 0; cmd_idx < command.size(); cmd_idx++) {
             string str = command[cmd_idx];
             double startTimer = omp_get_wtime();
 
-            // for column addition with range
             if (!str.empty() && str[0] == 'a') {
                 executeFinalOutput = true;
 
@@ -78,16 +76,13 @@ int main() {
                         (token[2] == "*") ? rowLenght - 1 : stoi(token[2]);
 
                     double share = 0.0;
-                    // serial summation
                     for (int row = start; row <= end; row++) {
                         share += data[row][index];
                     }
 
                     a.push_back(to_string(share));
                 }
-            }
-            // Update operation with range
-            else if (!str.empty() && str[0] == 'u') {
+            } else if (!str.empty() && str[0] == 'u') {
                 executeFinalOutput = true;
 
                 string insideParanthesis =
@@ -112,16 +107,13 @@ int main() {
                         (token[2] == "*") ? rowLenght - 1 : stoi(token[2]);
                     double share = stod(token[3]);
 
-                    // serial update
                     for (int row = start; row <= end; row++) {
                         data[row][index] = share;
                     }
 
                     a.push_back("Null");
                 }
-            }
-            // Conditional addition
-            else if (str.size() >= 2 && str[0] == 'c' && str[1] == 'a') {
+            } else if (str.size() >= 2 && str[0] == 'c' && str[1] == 'a') {
                 executeFinalOutput = true;
 
                 string insideParanthesis =
@@ -143,7 +135,6 @@ int main() {
                     string condition = token[1];
                     double share = 0.0;
 
-                    // serial conditional sum
                     for (int row = 0; row < rowLenght; row++) {
                         if (eval.evaluate("x", data[row][index], condition)) {
                             share += data[row][index];
@@ -152,9 +143,7 @@ int main() {
 
                     a.push_back(to_string(share));
                 }
-            }
-            // Conditional update
-            else if (str.size() >= 2 && str[0] == 'c' && str[1] == 'u') {
+            } else if (str.size() >= 2 && str[0] == 'c' && str[1] == 'u') {
                 executeFinalOutput = true;
 
                 string insideParanthesis =
@@ -176,7 +165,6 @@ int main() {
                     double newValue = stod(token[1]);
                     string condition = token[2];
 
-                    // serial conditional update
                     for (int row = 0; row < rowLenght; row++) {
                         if (eval.evaluate("x", data[row][index], condition)) {
                             data[row][index] = newValue;
@@ -185,9 +173,7 @@ int main() {
 
                     a.push_back("Null");
                 }
-            }
-            // Select/display operation
-            else if (!str.empty() && str[0] == 's') {
+            } else if (!str.empty() && str[0] == 's') {
                 string insideParanthesis =
                     tokenOperation.getInsideParanthesis(str);
                 vector<string> token =
@@ -195,7 +181,6 @@ int main() {
                 vector<string> inputedColNames = splitbyspace.split(token[0]);
                 vector<int> indexes(inputedColNames.size(), -1);
 
-                // Find column indexes
                 for (int i = 0; i < (int)inputedColNames.size(); i++) {
                     for (int j = 0; j < (int)columnNames.size(); j++) {
                         if (columnNames[j] == inputedColNames[i]) {
@@ -216,20 +201,16 @@ int main() {
                 if (!ok) {
                     cout << "Column not found" << endl;
                 } else {
-                    // Build table with serial data extraction
                     vector<vector<string>> table;
 
-                    // Header row
                     vector<string> header;
                     for (int idx : indexes) {
                         header.push_back(columnNames[idx]);
                     }
                     table.push_back(header);
 
-                    // Pre-allocate space for rows
                     table.resize(rowLenght + 1);
 
-                    // Serial data row construction
                     for (int i = 0; i < rowLenght; i++) {
                         vector<string> row;
                         for (int idx : indexes) {
