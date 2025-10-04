@@ -4,7 +4,7 @@ import random
 # CSV settings
 filename = "file.csv"
 headers = [f"Col{i}" for i in range(10)]  # Col0 ... Col100
-num_rows = 1000000  # number of rows you want
+num_rows = 100000  # number of rows you want
 
 # Open CSV and write
 with open(filename, "w", newline="") as f:
