@@ -1,2 +1,2 @@
-g++ parallel.cpp -fopenmp src/*.cpp && ./a.out
+g++ serial.cpp -fopenmp src/*.cpp && ./a.out
 
