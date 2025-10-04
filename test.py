@@ -1,18 +1,20 @@
 import csv
+import random
 
-# Data to write
-headers = ["Col1", "Col2", "Col3", "Col4"]
-rows = [
-    [10.5, 20.1, 30.7, 40.0],
-    [11.2, 21.5, 31.8, 41.3],
-    [12.0, 22.4, 32.6, 42.9],
-]
+# CSV settings
+filename = "file.csv"
+headers = [f"Col{i}" for i in range(101)]  # Col0 ... Col100
+num_rows = 10000  # number of rows you want
 
-# Write CSV file
-with open("file.csv", "w", newline="") as f:
+# Open CSV and write
+with open(filename, "w", newline="") as f:
     writer = csv.writer(f)
-    writer.writerow(headers)  # write header
-    writer.writerows(rows)    # write data
+    writer.writerow(headers)  # write headers
+    
+    for _ in range(num_rows):
+        # generate 101 random values between 1 and 100
+        row = [random.uniform(1, 100) for _ in range(101)]
+        writer.writerow(row)
 
-print("file.csv created ✅")
+print(f"{filename} created with {num_rows} rows and {len(headers)} columns ✅")
 

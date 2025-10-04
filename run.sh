@@ -1,2 +1,2 @@
 set -e
-g++ init.cpp src/*.cpp && ./a.out
+g++ init.cpp -fopenmp src/*.cpp && ./a.out

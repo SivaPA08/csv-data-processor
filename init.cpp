@@ -5,6 +5,7 @@
 #include "src/doth/splitbyspace.h"
 #include "src/doth/tokenoperation.h"
 #include <bits/stdc++.h>
+#include <omp.h>
 using namespace std;
 
 int main() {
@@ -25,12 +26,12 @@ int main() {
         cout << columnNames[i] << " ";
     }
     cout << endl;
-    for (int i = 0; i < data.size(); i++) {
-        for (int j = 0; j < data[i].size(); j++) {
-            cout << data[i][j] << " ";
-        }
-        cout << endl;
-    }
+    // for (int i = 0; i < data.size(); i++) {
+    //     for (int j = 0; j < data[i].size(); j++) {
+    //         cout << data[i][j] << " ";
+    //     }
+    //     cout << endl;
+    // }
     // ending of the removing part
     cout << "Welcome to csv-data-processor" << endl;
     int columnLenght = columnNames.size();
@@ -49,7 +50,9 @@ int main() {
             break;
         }
 
+        double totalTimer = 0.0;
         for (string str : command) {
+            double startTimer = omp_get_wtime();
 
             // for column addition
             if (str[0] == 'a') { // column add with a range
@@ -233,10 +236,13 @@ int main() {
 
                 TablePrinter::print(table, 12);
             }
+            double endTimer = omp_get_wtime();
+            totalTimer += (endTimer - startTimer);
         }
         if (executeFinalOutput == false) {
             continue;
         }
+        cout << "Execution Time:" << totalTimer << endl;
         vector<vector<string>> finalOutput;
         finalOutput.push_back(command);
         finalOutput.push_back(a);
