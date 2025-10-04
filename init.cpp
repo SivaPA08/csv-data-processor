@@ -1,6 +1,7 @@
 #include "include/Evaluator.hpp"
 #include "src/doth/builddata.h"
 #include "src/doth/splitbypipe.h"
+#include "src/doth/splitbyspace.h"
 #include "src/doth/tokenoperation.h"
 #include <bits/stdc++.h>
 using namespace std;
@@ -8,6 +9,7 @@ using namespace std;
 int main() {
     SplitByPipe splitbypipe;
     TokenOperation tokenOperation;
+    SplitBySpace splitbyspace;
     Evaluator eval;
 
     BuildData buildData;
@@ -122,7 +124,7 @@ int main() {
                     data[row][index] = share;
                 }
                 a.push_back(-1);
-            } else if (str[0] == 'c') {
+            } else if (str[0] == 'c' && str[1] == 'a') {
                 string insideParanthesis =
                     tokenOperation.getInsideParanthesis(str);
                 vector<string> token =
@@ -150,6 +152,67 @@ int main() {
                     }
                 }
                 a.push_back(share);
+            } else if (str[0] == 'c' && str[1] == 'u') {
+                string insideParanthesis =
+                    tokenOperation.getInsideParanthesis(str);
+                vector<string> token =
+                    tokenOperation.seperateByCommas(insideParanthesis);
+                bool ok = false;
+                int index = -1;
+                for (int i = 0; i < columnNames.size(); i++) {
+                    if (columnNames[i] == token[0]) {
+                        ok = true;
+                        index = i;
+                        break;
+                    }
+                }
+                if (!ok) {
+                    cout << "column not found u mf" << endl;
+                    continue;
+                }
+                for (int row = 0; row < rowLenght; row++) {
+                    if (eval.evaluate("x", data[row][index], token[2])) {
+                        data[row][index] = stod(token[1]);
+                    }
+                }
+                a.push_back(-1);
+            } else if (str[0] == 's') {
+                string insideParanthesis =
+                    tokenOperation.getInsideParanthesis(str);
+                vector<string> token =
+                    tokenOperation.seperateByCommas(insideParanthesis);
+                vector<string> inputedColNames = splitbyspace.split(token[0]);
+                vector<int> indexes(inputedColNames.size(), -1);
+                for (int i = 0; i < inputedColNames.size(); i++) {
+                    for (int j = 0; j < columnNames.size(); j++) {
+                        if (columnNames[j] == inputedColNames[i]) {
+                            indexes[i] = j;
+                            break;
+                        }
+                    }
+                }
+                bool ok = true;
+                for (int i : indexes) {
+                    if (i == -1) {
+                        ok = false;
+                        break;
+                    }
+                }
+                if (!ok) {
+                    cout << "Column not found" << endl;
+                    continue;
+                }
+                for (int i = 0; i < indexes.size(); i++) {
+                    cout << columnNames[indexes[i]] << " | ";
+                }
+                cout << '\n';
+                for (int i = 0; i < rowLenght; i++) {
+                    double sum = 0;
+                    for (int j = 0; j < indexes.size(); j++) {
+                        cout << data[i][indexes[j]] << " | ";
+                    }
+                    cout << '\n';
+                }
             }
         }
         for (double colvals : a) {
