@@ -6,6 +6,7 @@
 #include <string>
 #include <vector>
 
+using namespace std;
 class TablePrinter {
   public:
     static void print(const std::vector<std::vector<std::string>> &table,

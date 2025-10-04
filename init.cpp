@@ -36,8 +36,9 @@ int main() {
     int columnLenght = columnNames.size();
     int rowLenght = data.size();
     while (true) {
+        bool executeFinalOutput = false;
         cout << "csv-data-processor>>>";
-        vector<double> a;
+        vector<string> a;
         string s;
         getline(cin, s);
         if (s.empty())
@@ -52,6 +53,7 @@ int main() {
 
             // for column addition
             if (str[0] == 'a') { // column add with a range
+                executeFinalOutput = true;
                 string insideParanthesis =
                     tokenOperation.getInsideParanthesis(str);
                 vector<string> token =
@@ -86,10 +88,11 @@ int main() {
 
                     share += data[row][index];
                 }
-                a.push_back(share);
+                a.push_back(to_string(share));
             }
 
             else if (str[0] == 'u') {
+                executeFinalOutput = true;
                 string insideParanthesis =
                     tokenOperation.getInsideParanthesis(str);
                 vector<string> token =
@@ -124,8 +127,9 @@ int main() {
                 for (int row = start; row <= end; row++) {
                     data[row][index] = share;
                 }
-                a.push_back(-1);
+                a.push_back("Null");
             } else if (str[0] == 'c' && str[1] == 'a') {
+                executeFinalOutput = true;
                 string insideParanthesis =
                     tokenOperation.getInsideParanthesis(str);
                 vector<string> token =
@@ -152,8 +156,9 @@ int main() {
                         share += data[row][index];
                     }
                 }
-                a.push_back(share);
+                a.push_back(to_string(share));
             } else if (str[0] == 'c' && str[1] == 'u') {
+                executeFinalOutput = true;
                 string insideParanthesis =
                     tokenOperation.getInsideParanthesis(str);
                 vector<string> token =
@@ -176,7 +181,7 @@ int main() {
                         data[row][index] = stod(token[1]);
                     }
                 }
-                a.push_back(-1);
+                a.push_back("Null");
             } else if (str[0] == 's') {
                 string insideParanthesis =
                     tokenOperation.getInsideParanthesis(str);
@@ -226,13 +231,16 @@ int main() {
                     table.push_back(row);
                 }
 
-                // print the table
-                TablePrinter::print(table, 12); // 12 = column width
+                TablePrinter::print(table, 12);
             }
         }
-        for (double colvals : a) {
-            cout << colvals << " | ";
+        if (executeFinalOutput == false) {
+            continue;
         }
+        vector<vector<string>> finalOutput;
+        finalOutput.push_back(command);
+        finalOutput.push_back(a);
+        TablePrinter::print(finalOutput, 20);
         cout << endl;
     }
 }
