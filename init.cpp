@@ -1,4 +1,5 @@
 #include "include/Evaluator.hpp"
+#include "include/TablePrinter.hpp"
 #include "src/doth/builddata.h"
 #include "src/doth/splitbypipe.h"
 #include "src/doth/splitbyspace.h"
@@ -183,6 +184,8 @@ int main() {
                     tokenOperation.seperateByCommas(insideParanthesis);
                 vector<string> inputedColNames = splitbyspace.split(token[0]);
                 vector<int> indexes(inputedColNames.size(), -1);
+
+                // find column indexes
                 for (int i = 0; i < inputedColNames.size(); i++) {
                     for (int j = 0; j < columnNames.size(); j++) {
                         if (columnNames[j] == inputedColNames[i]) {
@@ -191,6 +194,7 @@ int main() {
                         }
                     }
                 }
+
                 bool ok = true;
                 for (int i : indexes) {
                     if (i == -1) {
@@ -202,17 +206,28 @@ int main() {
                     cout << "Column not found" << endl;
                     continue;
                 }
-                for (int i = 0; i < indexes.size(); i++) {
-                    cout << columnNames[indexes[i]] << " | ";
+
+                // ---- Use TablePrinter ----
+                std::vector<std::vector<std::string>> table;
+
+                // header row
+                std::vector<std::string> header;
+                for (int idx : indexes) {
+                    header.push_back(columnNames[idx]);
                 }
-                cout << '\n';
+                table.push_back(header);
+
+                // data rows
                 for (int i = 0; i < rowLenght; i++) {
-                    double sum = 0;
-                    for (int j = 0; j < indexes.size(); j++) {
-                        cout << data[i][indexes[j]] << " | ";
+                    std::vector<std::string> row;
+                    for (int idx : indexes) {
+                        row.push_back(std::to_string(data[i][idx]));
                     }
-                    cout << '\n';
+                    table.push_back(row);
                 }
+
+                // print the table
+                TablePrinter::print(table, 12); // 12 = column width
             }
         }
         for (double colvals : a) {
