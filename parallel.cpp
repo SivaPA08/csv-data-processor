@@ -45,7 +45,7 @@ int main() {
         }
 
         double totalTimer = 0.0;
-
+        // #pragma omp parallel for schedule(dynamic) if (command.size() > 1000)
         for (size_t cmd_idx = 0; cmd_idx < command.size(); cmd_idx++) {
             string str = command[cmd_idx];
             double startTimer = omp_get_wtime();
