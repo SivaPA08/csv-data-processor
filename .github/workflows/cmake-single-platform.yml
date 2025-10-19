@@ -1,20 +1,19 @@
 name: Build and Run
-
 on:
   push:
     branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
-
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v4
-
+    - name: Install Rust
+      uses: dtolnay/rust-toolchain@stable
+    - name: Build Rust library
+      run: cd rusty && cargo build --release && cd ..
     - name: Compile
-      run: g++ init.cpp -fopenmp src/*.cpp -o program
-
+      run: g++ init.cpp -fopenmp src/*.cpp -Iinclude -Lrusty/target/release -lrusty -ldl -o program
     - name: Run
-      run: ./program < input
+      run: LD_LIBRARY_PATH=rusty/target/release:$LD_LIBRARY_PATH ./program < input
