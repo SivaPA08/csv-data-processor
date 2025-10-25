@@ -122,11 +122,11 @@ int main() {
                         start = 0;
                     if (end >= rowLength)
                         end = rowLength - 1;
-                    double share = stod(token[3]);
 
 #pragma omp parallel for schedule(static)
                     for (int row = start; row <= end; row++) {
-                        data[row][index] = share;
+                        double share = data[row][index];
+                        data[row][index] = eval.calculate("x", share, token[3]);
                     }
 
                     a.push_back("Null");
@@ -187,13 +187,14 @@ int main() {
                     cout << "Column not found" << endl;
                     a.push_back("Error");
                 } else {
-                    double newValue = stod(token[1]);
                     string condition = token[2];
 
 #pragma omp parallel for schedule(static)
                     for (int row = 0; row < rowLength; row++) {
                         if (eval.evaluate("x", data[row][index], condition)) {
-                            data[row][index] = newValue;
+                            double share = data[row][index];
+                            data[row][index] =
+                                eval.calculate("x", share, token[2]);
                         }
                     }
 
