@@ -1,4 +1,5 @@
 #include "include/Evaluator.hpp"
+#include "include/SaveCSV.hpp"
 #include "include/TablePrinter.hpp"
 #include "src/doth/builddata.h"
 #include "src/doth/splitbypipe.h"
@@ -21,7 +22,6 @@ int main() {
     vector<string> columnNames = buildData.getColumnNames(head);
     vector<vector<double>> data = buildData.getData(file);
 
-    // removing part after testing
     for (int i = 0; i < (int)columnNames.size(); i++) {
         cout << columnNames[i] << " ";
     }
@@ -42,6 +42,11 @@ int main() {
         vector<string> command = splitbypipe.split(s);
 
         if (command[0] == "exit") {
+            break;
+        }
+        if (command[0] == "commit") {
+            CSVWriter writer("file.csv");
+            writer.save(columnNames, data);
             break;
         }
 

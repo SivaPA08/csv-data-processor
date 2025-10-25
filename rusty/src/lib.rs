@@ -32,4 +32,3 @@ pub extern "C" fn tokenEval(num: i32, expr_ptr: *const c_char) -> bool {
         Err(_) => false,
     }
 }
-

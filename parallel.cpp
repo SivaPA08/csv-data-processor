@@ -1,4 +1,5 @@
 #include "include/Evaluator.hpp"
+#include "include/SaveCSV.hpp"
 #include "include/TablePrinter.hpp"
 #include "src/doth/builddata.h"
 #include "src/doth/splitbypipe.h"
@@ -41,6 +42,11 @@ int main() {
         vector<string> command = splitbypipe.split(s);
 
         if (command[0] == "exit") {
+            break;
+        }
+        if (command[0] == "commit") {
+            CSVWriter csvWriter;
+            csvWriter.save(columnNames, data);
             break;
         }
 
