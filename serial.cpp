@@ -110,10 +110,10 @@ int main() {
                         (token[1] == "*") ? rowLenght - 1 : stoi(token[1]);
                     int end =
                         (token[2] == "*") ? rowLenght - 1 : stoi(token[2]);
-                    double share = stod(token[3]);
 
                     for (int row = start; row <= end; row++) {
-                        data[row][index] = share;
+                        double share = data[row][index];
+                        data[row][index] = eval.calculate("x", share, token[3]);
                     }
 
                     a.push_back("Null");
@@ -167,12 +167,13 @@ int main() {
                 if (index == -1) {
                     cout << "Column not found" << endl;
                 } else {
-                    double newValue = stod(token[1]);
-                    string condition = token[2];
+                    string condition = token[1];
 
                     for (int row = 0; row < rowLenght; row++) {
                         if (eval.evaluate("x", data[row][index], condition)) {
-                            data[row][index] = newValue;
+                            double share = data[row][index];
+                            data[row][index] =
+                                eval.calculate("x", share, token[2]);
                         }
                     }
 

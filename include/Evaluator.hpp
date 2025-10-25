@@ -4,6 +4,7 @@
 #include <string>
 
 extern "C" bool tokenEval(int num, const char *expr);
+extern "C" double calcExpr(double num, const char *expr);
 
 class Evaluator {
   public:
@@ -22,6 +23,10 @@ class Evaluator {
             pos += 2;
         }
         return tokenEval(varValue, cond.c_str());
+    }
+    int calculate(const std::string &varName, double varValue,
+                  const std::string &condition) {
+        return calcExpr(varValue, condition.c_str());
     }
 };
 
