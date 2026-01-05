@@ -61,3 +61,5 @@ pub extern "C" fn calcExpr(num: f64, expr_ptr: *const c_char) -> f64 {
         Err(_) => 0.0,
     }
 }
+
+//Tcp handel
