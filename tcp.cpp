@@ -2,10 +2,10 @@
 #include "include/Evaluator.hpp"
 // #include "include/SaveCSV.hpp"
 #include "include/TablePrinter.hpp"
-#include "src/doth/builddata.h"
-#include "src/doth/splitbypipe.h"
-#include "src/doth/splitbyspace.h"
-#include "src/doth/tokenoperation.h"
+#include "src/builddata.hpp"
+#include "src/splitbypipe.hpp"
+#include "src/splitbyspace.hpp"
+#include "src/tokenoperation.hpp"
 #include <bits/stdc++.h>
 #include <netinet/in.h>
 #include <nlohmann/json.hpp> // json parser
